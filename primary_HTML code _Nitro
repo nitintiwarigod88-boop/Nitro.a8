@@ -229,7 +229,77 @@ function loadMemory(){
 
     const data = await response.json();
     return data.choices[0].message.content;
+}async function nitroBrain(text){
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Authorization": "Bearer YOUR_API_KEY",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [{role: "user", content: text}]
+        })
+    });
+
+    const data = await response.json();
+    return data.choices[0].message.content;
+}function nitroBrain(text){
+    text = text.toLowerCase();
+
+    if(text.includes("hello") || text.includes("hi"))
+        return "Hello! Nitro is online and ready to chat with you.";
+
+    if(text.includes("how are you"))
+        return "I’m doing great! Excited to assist you today.";
+
+    if(text.includes("tell me a joke"))
+        return "Why did the programmer quit his job? Because he didn’t get arrays.";
+
+    if(text.includes("who created you"))
+        return "I was created by Nitin Tiwari, inspired by Iron Man's Jarvis.";
+
+    if(text.includes("motivate me") || text.includes("inspire me"))
+        return "Remember, every big journey starts with a single step. You’ve got this!";
+
+    if(text.includes("fact") || text.includes("learn"))
+        return "Did you know? Honey never spoils, even after thousands of years.";
+
+    if(text.includes("search"))
+        return "I can help you search. Just tell me what to look up, and I’ll open Google.";
+
+    if(text.includes("bye") || text.includes("stop"))
+        return "Goodbye for now. Call me anytime when you need me.";
+
+    // Default fallback
+    return "Hmm… let’s dive deeper. Can you give me more details?";
+}function openLink(url){
+    // Ask user permission before opening
+    if(confirm(`Do you want to open this link?\n${url}`)){
+        window.open(url, "_blank"); // Opens in a new tab
+        return `Opening: ${url}`;
+    }
+    return "Link opening cancelled by user.";
+}function nitroBrain(text){
+    text = text.toLowerCase();
+
+    // Check if text contains a link
+    const urlPattern = /(https?:\/\/[^\s]+)/g; // Simple URL detection
+    const urls = text.match(urlPattern);
+    if(urls && urls.length > 0){
+        // Open the first URL in the text
+        return openLink(urls[0]);
+    }
+
+    // Example of other responses
+    if(text.includes("hello") || text.includes("hi"))
+        return "Hello! Nitro is online and ready to chat.";
+
+    if(text.includes("search"))
+        return "Tell me what to search, and I can open it for you.";
+
+    return "Hmm… tell me more details.";
 }
-</script>
-</body>
+Check
+Check this https://www.google.comsDo you want to open this link? https://www.google.comcriptriptbodybody>
 </html>
