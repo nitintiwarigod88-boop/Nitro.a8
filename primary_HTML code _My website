@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Playground</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5em;
+        }
+        #main {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            padding: 10px;
+        }
+        #chat {
+            flex: 2;
+            border-right: 1px solid #ccc;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        #chat div {
+            margin-bottom: 10px;
+        }
+        #userInput {
+            margin-top: auto;
+            display: flex;
+        }
+        #userInput input {
+            flex: 1;
+            padding: 10px;
+            font-size: 1em;
+        }
+        #userInput button {
+            padding: 10px;
+            font-size: 1em;
+        }
+        #projects {
+            flex: 1;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        #projects textarea {
+            flex: 1;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        #projects button {
+            margin-top: 5px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>AI Playground</header>
+    <div id="main">
+        <div id="chat">
+            <div><b>AI:</b> Hello! Start talking or typing your commands.</div>
+            <div id="messages"></div>
+            <div id="userInput">
+                <input type="text" id="inputBox" placeholder="Type here..." />
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+        <div id="projects">
+            <textarea id="projectBox" placeholder="Write your AI project here..."></textarea>
+            <button onclick="saveProject()">Save Project</button>
+            <button onclick="loadProject()">Load Last Project</button>
+        </div>
+    </div>
+
+    <script>
+        const messagesDiv = document.getElementById("messages");
+
+        function aiReply(text) {
+            text = text.toLowerCase();
+            if(text.includes("hello")) return "Hello! How are you?";
+            if(text.includes("how are you")) return "I'm just code, but I'm ready to help!";
+            if(text.includes("your name")) return "I am your AI Playground assistant.";
+            if(text.includes("bye")) return "Goodbye! Come back soon.";
+            return "You said: " + text;
+        }
+
+        function sendMessage() {
+            const inputBox = document.getElementById("inputBox");
+            const text = inputBox.value.trim();
+            if(!text) return;
+
+            // Show user message
+            const userDiv = document.createElement("div");
+            userDiv.innerHTML = "<b>You:</b> " + text;
+            messagesDiv.appendChild(userDiv);
+
+            // AI response
+            const aiText = aiReply(text);
+            const aiDiv = document.createElement("div");
+            aiDiv.innerHTML = "<b>AI:</b> " + aiText;
+            messagesDiv.appendChild(aiDiv);
+
+            inputBox.value = "";
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        // Save project to local storage
+        function saveProject() {
+            const projectText = document.getElementById("projectBox").value;
+            if(!projectText) {
+                alert("Cannot save empty project!");
+                return;
+            }
+            localStorage.setItem("myAIProject", projectText);
+            alert("Project saved to your device!");
+        }
+
+        // Load project from local storage
+        function loadProject() {
+            const saved = localStorage.getItem("myAIProject");
+            if(saved) {
+                document.getElementById("projectBox").value = saved;
+                alert("Project loaded!");
+            } else {
+                alert("No saved project found.");
+            }
+        }
+    </script>
+</body>
+</html>
